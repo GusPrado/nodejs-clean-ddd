@@ -13,7 +13,7 @@
   - analista
 
 - Agregados
-- Value Objects
+- Value Objects -> Propriedades de entidades que possuem regras de negócio atreladas a elas (formatações, validações, etc.)
 - Eventos de domínio
 - Subdomínios (Bounded Contexts)
 - Entidades -> O que é mais palpável na aplicacao / algo do mundo real / traduzem tudo o que pode ser mantido na aplicação.
