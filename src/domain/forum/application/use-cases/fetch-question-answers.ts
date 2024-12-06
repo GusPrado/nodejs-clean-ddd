@@ -1,14 +1,19 @@
+import { Either, left, right } from '@/core/either'
 import { Answer } from '../../enterprise/entities/answer'
 import { AnswersRepository } from '../repositories/answers-repository'
+import { ResourceNotFoudError } from './errors/resource-not-found-error'
 
 interface FetchQuestionAnswersUseCaseRequest {
   questionId: string
   page: number
 }
 
-interface FetchQuestionAnswersUseCaseResponse {
-  answers: Answer[]
-}
+type FetchQuestionAnswersUseCaseResponse = Either<
+  ResourceNotFoudError,
+  {
+    answers: Answer[]
+  }
+>
 
 export class FetchQuestionAnswersUseCase {
   constructor(private answersRepository: AnswersRepository) {}
@@ -23,11 +28,11 @@ export class FetchQuestionAnswersUseCase {
     )
 
     if (!answers) {
-      throw new Error('Question without answers.')
+      return left(new ResourceNotFoudError())
     }
 
-    return {
+    return right({
       answers,
-    }
+    })
   }
 }
