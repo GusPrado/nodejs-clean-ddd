@@ -1,7 +1,6 @@
-import { Either, left, right } from '@/core/either'
+import { Either, right } from '@/core/either'
 import { Answer } from '../../enterprise/entities/answer'
 import { AnswersRepository } from '../repositories/answers-repository'
-import { ResourceNotFoudError } from './errors/resource-not-found-error'
 
 interface FetchQuestionAnswersUseCaseRequest {
   questionId: string
@@ -9,7 +8,7 @@ interface FetchQuestionAnswersUseCaseRequest {
 }
 
 type FetchQuestionAnswersUseCaseResponse = Either<
-  ResourceNotFoudError,
+  null,
   {
     answers: Answer[]
   }
@@ -26,10 +25,6 @@ export class FetchQuestionAnswersUseCase {
       questionId,
       { page },
     )
-
-    if (!answers) {
-      return left(new ResourceNotFoudError())
-    }
 
     return right({
       answers,

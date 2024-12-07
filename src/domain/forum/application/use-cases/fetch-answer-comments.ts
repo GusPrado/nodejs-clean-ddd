@@ -1,7 +1,6 @@
-import { Either, left, right } from '@/core/either'
+import { Either, right } from '@/core/either'
 import { AnswerComment } from '../../enterprise/entities/answer-comment'
 import { AnswerCommentsRepository } from '../repositories/answer-comments-repository'
-import { ResourceNotFoudError } from './errors/resource-not-found-error'
 
 interface FetchAnswerCommentsUseCaseRequest {
   answerId: string
@@ -9,7 +8,7 @@ interface FetchAnswerCommentsUseCaseRequest {
 }
 
 type FetchAnswerCommentsUseCaseResponse = Either<
-  ResourceNotFoudError,
+  null,
   {
     answerComments: AnswerComment[]
   }
@@ -26,10 +25,6 @@ export class FetchAnswerCommentsUseCase {
       await this.answerCommentsRepository.findManyByAnswerId(answerId, {
         page,
       })
-
-    if (!answerComments) {
-      return left(new ResourceNotFoudError())
-    }
 
     return right({
       answerComments,
